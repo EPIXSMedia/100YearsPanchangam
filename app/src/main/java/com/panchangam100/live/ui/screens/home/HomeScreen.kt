@@ -5,9 +5,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -138,8 +140,14 @@ private fun DateStrip(
     onDateSelect: (LocalDate) -> Unit
 ) {
     val dates = remember { (-7..7).map { today.plusDays(it.toLong()) } }
+    val listState = rememberLazyListState()
+    LaunchedEffect(Unit) {
+        // Scroll so today (index 7) is roughly centered; show ~2 days before it
+        listState.scrollToItem(5)
+    }
 
     LazyRow(
+        state = listState,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 4.dp)
     ) {
@@ -163,7 +171,7 @@ private fun DateStrip(
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
                 Text(
-                    date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).first().toString(),
+                    date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).take(2),
                     style = MaterialTheme.typography.labelSmall,
                     color = if (isSelected) Color(0xFF3A0000) else Color.White.copy(alpha = 0.7f)
                 )
@@ -280,9 +288,9 @@ private fun HomeContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Icon(Icons.Default.OpenInNew, null, modifier = Modifier.size(16.dp))
+                Icon(Icons.AutoMirrored.Filled.OpenInNew, null, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(8.dp))
-                Text("Full Details")
+                Text(LanguageManager.label("fullDetails", lang))
             }
         }
 

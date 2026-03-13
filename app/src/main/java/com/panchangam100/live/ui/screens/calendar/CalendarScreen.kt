@@ -53,8 +53,16 @@ fun CalendarScreen(
                         Icon(Icons.Default.ChevronLeft, null, tint = Color.White)
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        val monthLocale = when (lang) {
+                            com.panchangam100.live.data.model.Language.HINDI     -> Locale("hi")
+                            com.panchangam100.live.data.model.Language.TAMIL     -> Locale("ta")
+                            com.panchangam100.live.data.model.Language.MALAYALAM -> Locale("ml")
+                            com.panchangam100.live.data.model.Language.KANNADA   -> Locale("kn")
+                            com.panchangam100.live.data.model.Language.TELUGU    -> Locale("te")
+                            else -> Locale.ENGLISH
+                        }
                         Text(
-                            state.month.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH),
+                            state.month.month.getDisplayName(TextStyle.FULL, monthLocale),
                             style = MaterialTheme.typography.headlineMedium,
                             color = Color.White,
                             fontWeight = FontWeight.Bold
@@ -82,7 +90,7 @@ fun CalendarScreen(
                             DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY
                         ).forEach { dow ->
                             Text(
-                                dow.getDisplayName(TextStyle.NARROW, Locale.ENGLISH),
+                                dow.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).take(2),
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.labelSmall,

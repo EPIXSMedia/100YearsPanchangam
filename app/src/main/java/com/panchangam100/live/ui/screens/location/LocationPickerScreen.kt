@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,6 +23,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.panchangam100.live.data.datastore.AppPreferences
 import com.panchangam100.live.data.model.AppLocation
 import com.panchangam100.live.data.model.CityDatabase
+import com.panchangam100.live.data.model.Language
+import com.panchangam100.live.utils.LanguageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -67,6 +70,7 @@ fun LocationPickerScreen(
     onBack: () -> Unit,
     viewModel: LocationViewModel = hiltViewModel()
 ) {
+    val lang by prefs.languageFlow.collectAsState(initial = Language.TELUGU)
     var query by remember { mutableStateOf("") }
     val searchResults = remember(query) { CityDatabase.search(query) }
     val currentLocation by viewModel.currentLocation.collectAsState()
@@ -77,9 +81,9 @@ fun LocationPickerScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Select Location", fontWeight = FontWeight.Bold) },
+                title = { Text(LanguageManager.label("location", lang), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, null) }
+                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, null) }
                 }
             )
         }
@@ -108,11 +112,11 @@ fun LocationPickerScreen(
             ) {
                 Icon(Icons.Default.MyLocation, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Use Current GPS Location")
+                Text(LanguageManager.label("useGPS", lang))
             }
 
             if (gpsError) {
-                Text("Could not get GPS location. Please select a city.", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                Text(LanguageManager.label("gpsError", lang), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -126,7 +130,7 @@ fun LocationPickerScreen(
                     Icon(Icons.Default.LocationOn, null, tint = MaterialTheme.colorScheme.primary)
                     Spacer(Modifier.width(12.dp))
                     Column {
-                        Text("Current Location", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(LanguageManager.label("currentLocation", lang), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text(currentLocation.displayName, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
                         Text("%.4f°N, %.4f°E".format(currentLocation.latitude, currentLocation.longitude),
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -140,7 +144,7 @@ fun LocationPickerScreen(
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                label = { Text("Search city...") },
+                label = { Text(LanguageManager.label("searchCity", lang)) },
                 leadingIcon = { Icon(Icons.Default.Search, null) },
                 trailingIcon = {
                     if (query.isNotEmpty()) {

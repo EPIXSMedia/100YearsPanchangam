@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,6 +29,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 
 // ─── ViewModel ───
@@ -77,13 +80,19 @@ fun DayDetailScreen(
 
     LaunchedEffect(dateStr) { viewModel.load(dateStr) }
 
+    val displayDate = remember(dateStr) {
+        runCatching {
+            LocalDate.parse(dateStr).format(DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH))
+        }.getOrDefault(dateStr)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Column {
                         Text(
-                            dateStr,
+                            displayDate,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -98,7 +107,7 @@ fun DayDetailScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -176,7 +185,7 @@ private fun DetailContent(result: PanchangamResult, lang: Language, modifier: Mo
 
         // ── Rashi ──
         PanchangamCard {
-            SectionHeader("Rashi / Zodiac")
+            SectionHeader(LanguageManager.label("rashi", lang))
             Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
             Spacer(Modifier.height(4.dp))
             DetailRow(LanguageManager.label("moonRashi", lang), LanguageManager.getRashi(result.moonRashiIndex, lang))
@@ -252,7 +261,7 @@ private fun DetailRowWithEnd(label: String, value: String, end: String?) {
             Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
             if (end != null) {
                 Text(
-                    "ends $end",
+                    "↓ $end",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

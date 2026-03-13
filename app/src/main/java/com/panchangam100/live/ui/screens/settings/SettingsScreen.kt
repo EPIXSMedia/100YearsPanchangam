@@ -18,6 +18,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.panchangam100.live.data.datastore.AppPreferences
 import com.panchangam100.live.data.model.Language
+import com.panchangam100.live.utils.LanguageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ fun SettingsScreen(
                 .padding(horizontal = 20.dp, vertical = 24.dp)
         ) {
             Text(
-                "Settings",
+                LanguageManager.label("settings", lang),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -71,10 +72,10 @@ fun SettingsScreen(
         Spacer(Modifier.height(16.dp))
 
         // ── Language ──
-        SettingSection(title = "Language / భాష") {
+        SettingSection(title = LanguageManager.label("language", lang)) {
             SettingRow(
                 icon = Icons.Default.Language,
-                title = "App Language",
+                title = LanguageManager.label("language", lang),
                 subtitle = "${lang.nativeName} (${lang.displayName})",
                 onClick = { showLangDialog = true }
             )
@@ -83,10 +84,10 @@ fun SettingsScreen(
         Spacer(Modifier.height(8.dp))
 
         // ── Location ──
-        SettingSection(title = "Location / స్థానం") {
+        SettingSection(title = LanguageManager.label("location", lang)) {
             SettingRow(
                 icon = Icons.Default.LocationOn,
-                title = "Panchangam Location",
+                title = LanguageManager.label("location", lang),
                 subtitle = location.displayName,
                 onClick = onLocationClick
             )
@@ -95,14 +96,14 @@ fun SettingsScreen(
         Spacer(Modifier.height(8.dp))
 
         // ── Appearance ──
-        SettingSection(title = "Appearance") {
+        SettingSection(title = LanguageManager.label("appearance", lang)) {
             SettingRow(
                 icon = Icons.Default.DarkMode,
-                title = "Dark Mode",
+                title = LanguageManager.label("darkMode", lang),
                 subtitle = when (darkMode) {
-                    true -> "Dark"
-                    false -> "Light"
-                    null -> "Follow System"
+                    true -> LanguageManager.label("dark", lang)
+                    false -> LanguageManager.label("light", lang)
+                    null -> LanguageManager.label("followSystem", lang)
                 },
                 onClick = { showDarkDialog = true }
             )
@@ -111,7 +112,7 @@ fun SettingsScreen(
         Spacer(Modifier.height(8.dp))
 
         // ── About ──
-        SettingSection(title = "About") {
+        SettingSection(title = LanguageManager.label("about", lang)) {
             SettingRow(
                 icon = Icons.Default.Info,
                 title = "100 Years Panchangam",
@@ -133,7 +134,7 @@ fun SettingsScreen(
     if (showLangDialog) {
         AlertDialog(
             onDismissRequest = { showLangDialog = false },
-            title = { Text("Select Language", fontWeight = FontWeight.Bold) },
+            title = { Text(LanguageManager.label("selectLang", lang), fontWeight = FontWeight.Bold) },
             text = {
                 Column {
                     Language.entries.forEach { language ->
@@ -159,7 +160,7 @@ fun SettingsScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showLangDialog = false }) { Text("Close") }
+                TextButton(onClick = { showLangDialog = false }) { Text(LanguageManager.label("close", lang)) }
             }
         )
     }
@@ -168,13 +169,13 @@ fun SettingsScreen(
     if (showDarkDialog) {
         AlertDialog(
             onDismissRequest = { showDarkDialog = false },
-            title = { Text("Dark Mode", fontWeight = FontWeight.Bold) },
+            title = { Text(LanguageManager.label("darkMode", lang), fontWeight = FontWeight.Bold) },
             text = {
                 Column {
                     listOf(
-                        Pair(null, "Follow System"),
-                        Pair(false, "Light Mode"),
-                        Pair(true, "Dark Mode")
+                        Pair(null, LanguageManager.label("followSystem", lang)),
+                        Pair(false, LanguageManager.label("light", lang)),
+                        Pair(true, LanguageManager.label("dark", lang))
                     ).forEach { (value, label) ->
                         Row(
                             modifier = Modifier
@@ -194,7 +195,7 @@ fun SettingsScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showDarkDialog = false }) { Text("Close") }
+                TextButton(onClick = { showDarkDialog = false }) { Text(LanguageManager.label("close", lang)) }
             }
         )
     }

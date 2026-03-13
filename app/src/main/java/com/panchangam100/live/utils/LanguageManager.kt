@@ -167,7 +167,15 @@ object LanguageManager {
             "settings" to "సెట్టింగులు", "location" to "స్థానం", "search" to "వెతకండి",
             "useGPS" to "GPS ఉపయోగించండి", "selectCity" to "నగరం ఎంచుకోండి",
             "language" to "భాష", "ends" to "ముగుస్తుంది", "auspicious" to "శుభ సమయాలు",
-            "inauspicious" to "అశుభ సమయాలు", "panchangam" to "పంచాంగం"
+            "inauspicious" to "అశుభ సమయాలు", "panchangam" to "పంచాంగం",
+            "rashi" to "రాశి", "fullDetails" to "పూర్తి వివరాలు", "about" to "గురించి",
+            "appearance" to "రూపం", "darkMode" to "డార్క్ మోడ్", "light" to "లైట్ మోడ్",
+            "dark" to "డార్క్ మోడ్", "followSystem" to "సిస్టమ్ అనుసరించు",
+            "close" to "మూసివేయి", "selectLang" to "భాష ఎంచుకోండి",
+            "upcoming" to "రాబోయే పండుగలు", "past" to "గడచిన పండుగలు",
+            "publicHoliday" to "ప్రభుత్వ సెలవు",
+            "currentLocation" to "ప్రస్తుత స్థానం", "searchCity" to "నగరం వెతకండి...",
+            "gpsError" to "GPS స్థానం అందుబాటులో లేదు. దయచేసి నగరాన్ని ఎంచుకోండి."
         ),
         Language.ENGLISH to mapOf(
             "tithi" to "Tithi", "nakshatra" to "Nakshatra", "yoga" to "Yoga", "karana" to "Karana",
@@ -178,7 +186,15 @@ object LanguageManager {
             "settings" to "Settings", "location" to "Location", "search" to "Search",
             "useGPS" to "Use GPS", "selectCity" to "Select City",
             "language" to "Language", "ends" to "Ends", "auspicious" to "Auspicious Times",
-            "inauspicious" to "Inauspicious Times", "panchangam" to "Panchangam"
+            "inauspicious" to "Inauspicious Times", "panchangam" to "Panchangam",
+            "rashi" to "Rashi / Zodiac", "fullDetails" to "Full Details", "about" to "About",
+            "appearance" to "Appearance", "darkMode" to "Dark Mode", "light" to "Light Mode",
+            "dark" to "Dark Mode", "followSystem" to "Follow System",
+            "close" to "Close", "selectLang" to "Select Language",
+            "upcoming" to "Upcoming Festivals", "past" to "Past Festivals",
+            "publicHoliday" to "Public Holiday",
+            "currentLocation" to "Current Location", "searchCity" to "Search city...",
+            "gpsError" to "Could not get GPS location. Please select a city."
         ),
         Language.TAMIL to mapOf(
             "tithi" to "திதி", "nakshatra" to "நட்சத்திரம்", "yoga" to "யோகம்", "karana" to "கரணம்",
@@ -189,7 +205,15 @@ object LanguageManager {
             "settings" to "அமைப்புகள்", "location" to "இடம்", "search" to "தேடு",
             "useGPS" to "GPS பயன்படுத்து", "selectCity" to "நகரம் தேர்ந்தெடு",
             "language" to "மொழி", "ends" to "முடிகிறது", "auspicious" to "சுப நேரங்கள்",
-            "inauspicious" to "அசுப நேரங்கள்", "panchangam" to "பஞ்சாங்கம்"
+            "inauspicious" to "அசுப நேரங்கள்", "panchangam" to "பஞ்சாங்கம்",
+            "rashi" to "ராசி", "fullDetails" to "முழு விவரங்கள்", "about" to "பற்றி",
+            "appearance" to "தோற்றம்", "darkMode" to "இருண்ட முறை", "light" to "ஒளி முறை",
+            "dark" to "இருண்ட முறை", "followSystem" to "சிஸ்டம் பின்பற்று",
+            "close" to "மூடு", "selectLang" to "மொழி தேர்ந்தெடு",
+            "upcoming" to "வரவிருக்கும் திருவிழாக்கள்", "past" to "கடந்த திருவிழாக்கள்",
+            "publicHoliday" to "அரசு விடுமுறை",
+            "currentLocation" to "தற்போதைய இடம்", "searchCity" to "நகரம் தேடுக...",
+            "gpsError" to "GPS இருப்பிடம் கிடைக்கவில்லை. நகரத்தை தேர்ந்தெடுக்கவும்."
         ),
         Language.MALAYALAM to mapOf(
             "tithi" to "തിഥി", "nakshatra" to "നക്ഷത്രം", "yoga" to "യോഗം", "karana" to "കരണം",
@@ -200,7 +224,15 @@ object LanguageManager {
             "settings" to "ക്രമീകരണങ്ങൾ", "location" to "സ്ഥലം", "search" to "തിരയുക",
             "useGPS" to "GPS ഉപയോഗിക്കുക", "selectCity" to "നഗരം തിരഞ്ഞെടുക്കുക",
             "language" to "ഭാഷ", "ends" to "അവസാനിക്കുന്നു", "auspicious" to "ശുഭ സമയങ്ങൾ",
-            "inauspicious" to "അശുഭ സമയങ്ങൾ", "panchangam" to "പഞ്ചാംഗം"
+            "inauspicious" to "അശുഭ സമയങ്ങൾ", "panchangam" to "പഞ്ചാംഗം",
+            "rashi" to "രാശി", "fullDetails" to "പൂർണ്ണ വിവരങ്ങൾ", "about" to "കുറിച്ച്",
+            "appearance" to "രൂപഘടന", "darkMode" to "ഡാർക്ക് മോഡ്", "light" to "ലൈറ്റ് മോഡ്",
+            "dark" to "ഡാർക്ക് മോഡ്", "followSystem" to "സിസ്റ്റം പിന്തുടരുക",
+            "close" to "അടയ്ക്കുക", "selectLang" to "ഭാഷ തിരഞ്ഞെടുക്കുക",
+            "upcoming" to "വരാനിരിക്കുന്ന ഉത്സവങ്ങൾ", "past" to "കഴിഞ്ഞ ഉത്സവങ്ങൾ",
+            "publicHoliday" to "പൊതു അവധി",
+            "currentLocation" to "നിലവിലെ സ്ഥലം", "searchCity" to "നഗരം തിരയുക...",
+            "gpsError" to "GPS സ്ഥലം ലഭ്യമല്ല. ദയവായി ഒരു നഗരം തിരഞ്ഞെടുക്കുക."
         ),
         Language.HINDI to mapOf(
             "tithi" to "तिथि", "nakshatra" to "नक्षत्र", "yoga" to "योग", "karana" to "करण",
@@ -211,7 +243,15 @@ object LanguageManager {
             "settings" to "सेटिंग्स", "location" to "स्थान", "search" to "खोजें",
             "useGPS" to "GPS उपयोग करें", "selectCity" to "शहर चुनें",
             "language" to "भाषा", "ends" to "समाप्त होता है", "auspicious" to "शुभ समय",
-            "inauspicious" to "अशुभ समय", "panchangam" to "पंचांग"
+            "inauspicious" to "अशुभ समय", "panchangam" to "पंचांग",
+            "rashi" to "राशि", "fullDetails" to "पूरे विवरण", "about" to "के बारे में",
+            "appearance" to "उपस्थिति", "darkMode" to "डार्क मोड", "light" to "लाइट मोड",
+            "dark" to "डार्क मोड", "followSystem" to "सिस्टम अनुसरण करें",
+            "close" to "बंद करें", "selectLang" to "भाषा चुनें",
+            "upcoming" to "आगामी त्योहार", "past" to "पिछले त्योहार",
+            "publicHoliday" to "सार्वजनिक छुट्टी",
+            "currentLocation" to "वर्तमान स्थान", "searchCity" to "शहर खोजें...",
+            "gpsError" to "GPS स्थान उपलब्ध नहीं है। कृपया शहर चुनें।"
         ),
         Language.KANNADA to mapOf(
             "tithi" to "ತಿಥಿ", "nakshatra" to "ನಕ್ಷತ್ರ", "yoga" to "ಯೋಗ", "karana" to "ಕರಣ",
@@ -222,7 +262,15 @@ object LanguageManager {
             "settings" to "ಸೆಟ್ಟಿಂಗ್ಸ್", "location" to "ಸ್ಥಳ", "search" to "ಹುಡುಕಿ",
             "useGPS" to "GPS ಬಳಸಿ", "selectCity" to "ನಗರ ಆಯ್ಕೆಮಾಡಿ",
             "language" to "ಭಾಷೆ", "ends" to "ಮುಗಿಯುತ್ತದೆ", "auspicious" to "ಶುಭ ಸಮಯಗಳು",
-            "inauspicious" to "ಅಶುಭ ಸಮಯಗಳು", "panchangam" to "ಪಂಚಾಂಗ"
+            "inauspicious" to "ಅಶುಭ ಸಮಯಗಳು", "panchangam" to "ಪಂಚಾಂಗ",
+            "rashi" to "ರಾಶಿ", "fullDetails" to "ಸಂಪೂರ್ಣ ವಿವರಗಳು", "about" to "ಬಗ್ಗೆ",
+            "appearance" to "ನೋಟ", "darkMode" to "ಡಾರ್ಕ್ ಮೋಡ್", "light" to "ಲೈಟ್ ಮೋಡ್",
+            "dark" to "ಡಾರ್ಕ್ ಮೋಡ್", "followSystem" to "ಸಿಸ್ಟಮ್ ಅನುಸರಿಸಿ",
+            "close" to "ಮುಚ್ಚು", "selectLang" to "ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ",
+            "upcoming" to "ಮುಂಬರುವ ಹಬ್ಬಗಳು", "past" to "ಹಿಂದಿನ ಹಬ್ಬಗಳು",
+            "publicHoliday" to "ಸಾರ್ವಜನಿಕ ರಜೆ",
+            "currentLocation" to "ಪ್ರಸ್ತುತ ಸ್ಥಳ", "searchCity" to "ನಗರ ಹುಡುಕಿ...",
+            "gpsError" to "GPS ಸ್ಥಳ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಗರ ಆಯ್ಕೆ ಮಾಡಿ."
         )
     )
 
