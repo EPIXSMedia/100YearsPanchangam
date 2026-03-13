@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Temple gopuram -->
+    <path
+        android:fillColor="#FF6D00"
+        android:pathData="M24,4 L28,12 H32 L34,16 H36 L38,20 H40 V44 H8 V20 H10 L12,16 H14 L16,12 H20 Z" />
+    <!-- Temple door arch -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,28 Q20,22 24,22 Q28,22 28,28 V44 H20 Z" />
+    <!-- Kalasham/finial -->
+    <path
+        android:fillColor="#FFD600"
+        android:pathData="M23,2 L24,1 L25,2 L25,4 L23,4 Z" />
+    <!-- Horizontal lines -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="0.8"
+        android:pathData="M12,24 H20 M28,24 H36 M10,28 H20 M28,28 H38 M10,32 H20 M28,32 H38 M10,36 H20 M28,36 H38 M10,40 H20 M28,40 H38" />
+</vector>

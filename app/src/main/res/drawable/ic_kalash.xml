@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Kalash pot body -->
+    <path
+        android:fillColor="#FF6D00"
+        android:pathData="M14,32 Q14,22 24,20 Q34,22 34,32 L34,38 Q34,42 30,42 L18,42 Q14,42 14,38 Z" />
+    <!-- Kalash neck -->
+    <path
+        android:fillColor="#E65100"
+        android:pathData="M20,20 L28,20 L28,16 L20,16 Z" />
+    <!-- Kalash rim -->
+    <path
+        android:fillColor="#FFD600"
+        android:pathData="M18,16 L30,16 L30,14 L18,14 Z" />
+    <!-- Coconut -->
+    <path
+        android:fillColor="#8D6E63"
+        android:pathData="M24,14 A5,5 0 1,1 24.01,14" />
+    <!-- Mango leaves left -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M24,14 Q16,8 14,6 Q16,10 20,14" />
+    <!-- Mango leaves right -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M24,14 Q32,8 34,6 Q32,10 28,14" />
+    <!-- Kalash decoration line -->
+    <path
+        android:fillColor="#FFD600"
+        android:pathData="M16,30 L32,30"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFD600" />
+    <!-- Base -->
+    <path
+        android:fillColor="#E65100"
+        android:pathData="M12,42 L36,42 L36,44 L12,44 Z" />
+</vector>
