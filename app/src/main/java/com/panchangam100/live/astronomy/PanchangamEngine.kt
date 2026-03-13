@@ -304,22 +304,38 @@ object PanchangamEngine {
         val zoneId = ZoneId.of(timezone)
 
         // ── Sunrise ──
-        val srUT = sunriseUT(date, lat, lon) ?: 6.0
-        val ssUT = sunsetUT(date, lat, lon) ?: 18.0
+        val srUT = sunriseUT(date, lat, lon) ?: 0.5   // fallback 0:30 UT (≈6 AM IST)
+        val ssUT = sunsetUT(date, lat, lon) ?: 12.5   // fallback 12:30 UT (≈18 PM IST)
 
-        // Convert UT to local time
+        // Convert UT to local time (normalize to 0..24 to handle midnight crossings)
         val tzOffsetHours = zoneId.rules.getOffset(
             date.atStartOfDay().toInstant(ZoneOffset.UTC)
         ).totalSeconds / 3600.0
 
-        val srLocalHr = srUT + tzOffsetHours
-        val ssLocalHr = ssUT + tzOffsetHours
+        // Normalize to 0-<24 range: sunrise may be ~23h UT for eastern timezones
+        fun normalizeLocalHr(utHr: Double): Double {
+            var h = (utHr + tzOffsetHours) % 24.0
+            if (h < 0) h += 24.0
+            return h
+        }
 
-        val srLocalMin = (srLocalHr * 60).roundToInt()
-        val ssLocalMin = (ssLocalHr * 60).roundToInt()
+        val srLocalHr = normalizeLocalHr(srUT)
+        val ssLocalHr = run {
+            var h = normalizeLocalHr(ssUT)
+            // Sunset must always be after sunrise
+            if (h <= srLocalHr) h += 24.0
+            h
+        }
 
-        val sunriseLocal = date.atTime(srLocalMin / 60, srLocalMin % 60)
-        val sunsetLocal  = date.atTime(ssLocalMin / 60, ssLocalMin % 60)
+        fun hrToLocalTime(hr: Double): LocalDateTime {
+            val normalHr = hr % 24.0
+            val h = normalHr.toInt().coerceIn(0, 23)
+            val m = ((normalHr - h) * 60).roundToInt().coerceIn(0, 59)
+            return date.atTime(h, m)
+        }
+
+        val sunriseLocal = hrToLocalTime(srLocalHr % 24.0)
+        val sunsetLocal  = hrToLocalTime(ssLocalHr % 24.0)
 
         // JD at sunrise
         val jdSunrise = julianDay(date, srUT)
@@ -329,22 +345,17 @@ object PanchangamEngine {
         var tithiEndJd = findTithiEnd(tithiNum, jdSunrise)
 
         // Apply 48-min udaya rule (loop for kshaya)
+        // Compare using JD difference (avoids timezone boundary issues)
         var safetyCount = 0
         while (tithiEndJd != null && safetyCount < 5) {
-            val tithiEndUT = jdToUT(tithiEndJd)
-            val tithiEndLocalHr = tithiEndUT + tzOffsetHours
-            val minAfterSunrise = (tithiEndLocalHr - srLocalHr) * 60.0
+            val minAfterSunrise = (tithiEndJd - jdSunrise) * 24.0 * 60.0
             if (minAfterSunrise <= 0 || minAfterSunrise >= UDAYA_MINUTES) break
             tithiNum = (tithiNum + 1) % 30
             tithiEndJd = findTithiEnd(tithiNum, tithiEndJd)
             safetyCount++
         }
 
-        val tithiEndLocal = tithiEndJd?.let {
-            val hr = jdToUT(it) + tzOffsetHours
-            val min = (hr * 60).roundToInt()
-            date.atTime(min / 60, min % 60)
-        }
+        val tithiEndLocal = tithiEndJd?.let { hrToLocalTime(normalizeLocalHr(jdToUT(it))) }
 
         // ── Nakshatra with udaya rule ──
         var nakNum = nakshatraAt(jdSunrise)
@@ -352,27 +363,19 @@ object PanchangamEngine {
 
         safetyCount = 0
         while (nakEndJd != null && safetyCount < 5) {
-            val nakEndUT = jdToUT(nakEndJd)
-            val nakEndLocalHr = nakEndUT + tzOffsetHours
-            val minAfterSunrise = (nakEndLocalHr - srLocalHr) * 60.0
+            val minAfterSunrise = (nakEndJd - jdSunrise) * 24.0 * 60.0
             if (minAfterSunrise <= 0 || minAfterSunrise >= UDAYA_MINUTES) break
             nakNum = (nakNum + 1) % 27
             nakEndJd = findNakshatraEnd(nakNum, nakEndJd)
             safetyCount++
         }
 
-        val nakEndLocal = nakEndJd?.let {
-            val hr = jdToUT(it) + tzOffsetHours
-            val min = (hr * 60).roundToInt()
-            date.atTime(min / 60, min % 60)
-        }
+        val nakEndLocal = nakEndJd?.let { hrToLocalTime(normalizeLocalHr(jdToUT(it))) }
 
         // ── Yoga ──
         val yogaNum = yogaAt(jdSunrise)
         val yogaEndLocal = findYogaEnd(yogaNum, jdSunrise)?.let {
-            val hr = jdToUT(it) + tzOffsetHours
-            val min = (hr * 60).roundToInt()
-            date.atTime(min / 60, min % 60)
+            hrToLocalTime(normalizeLocalHr(jdToUT(it)))
         }
 
         // ── Karana ──
@@ -389,18 +392,30 @@ object PanchangamEngine {
         val sunRashi  = floor(sunSiderealLongitude(jdSunrise) / 30.0).toInt().coerceIn(0, 11)
 
         // ── Inauspicious periods ──
-        val dayMinutes = (ssLocalHr - srLocalHr) * 60.0
+        // Use actual day length in minutes (ssLocalHr may be >24 so subtract)
+        val srMinOfDay = (srLocalHr * 60).roundToInt()
+        val ssMinOfDay = run {
+            var m = (ssLocalHr * 60).roundToInt()
+            if (m >= 24 * 60) m -= 24 * 60
+            m
+        }
+        val dayMinutes = if (ssMinOfDay > srMinOfDay) (ssMinOfDay - srMinOfDay).toDouble()
+                         else (ssMinOfDay + 24 * 60 - srMinOfDay).toDouble()
         val muhurta = dayMinutes / 8.0
 
         val rahuSlots  = mapOf(1 to 7, 2 to 1, 3 to 6, 4 to 4, 5 to 5, 6 to 3, 7 to 2)
         val yamaSlots  = mapOf(1 to 4, 2 to 3, 3 to 2, 4 to 1, 5 to 6, 6 to 5, 7 to 7)
         val gulikaSlots = mapOf(1 to 6, 2 to 5, 3 to 4, 4 to 3, 5 to 2, 6 to 1, 7 to 7)
 
+        fun minToHHMM(totalMin: Int): String {
+            val m = ((totalMin % (24 * 60)) + 24 * 60) % (24 * 60)
+            return "%02d:%02d".format(m / 60, m % 60)
+        }
+
         fun slotTime(slot: Int): Pair<String, String> {
-            val startMin = ((slot - 1) * muhurta + srLocalMin).toInt()
-            val endMin   = (slot * muhurta + srLocalMin).toInt()
-            return "%02d:%02d".format(startMin / 60, startMin % 60) to
-                    "%02d:%02d".format(endMin / 60, endMin % 60)
+            val startMin = (srMinOfDay + (slot - 1) * muhurta).toInt()
+            val endMin   = (srMinOfDay + slot * muhurta).toInt()
+            return minToHHMM(startMin) to minToHHMM(endMin)
         }
 
         val rahuKalam   = slotTime(rahuSlots[vara] ?: 1)
@@ -408,9 +423,9 @@ object PanchangamEngine {
         val gulikaKalam = slotTime(gulikaSlots[vara] ?: 1)
 
         // ── Abhijit Muhurta ──
-        val noonMin = ((srLocalHr + ssLocalHr) / 2.0 * 60).toInt()
-        val abhijitStart = "%02d:%02d".format((noonMin - 24) / 60, (noonMin - 24) % 60)
-        val abhijitEnd   = "%02d:%02d".format((noonMin + 24) / 60, (noonMin + 24) % 60)
+        val noonMin = srMinOfDay + (dayMinutes / 2).toInt()
+        val abhijitStart = minToHHMM(noonMin - 24)
+        val abhijitEnd   = minToHHMM(noonMin + 24)
 
         return PanchangamResult(
             date = date,
