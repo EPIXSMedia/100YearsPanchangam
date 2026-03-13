@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -130,6 +131,11 @@ dependencies {
 
     // AdMob
     implementation("com.google.android.gms:play-services-ads:23.6.0")
+
+    // Firebase BOM + FCM
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     // Coil (image loading)
     implementation("io.coil-kt:coil-compose:2.7.0")

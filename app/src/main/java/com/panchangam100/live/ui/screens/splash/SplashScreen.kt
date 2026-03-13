@@ -2,6 +2,7 @@ package com.panchangam100.live.ui.screens.splash
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,10 +13,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.panchangam100.live.R
 import com.panchangam100.live.ui.theme.*
 import kotlinx.coroutines.delay
 
@@ -56,12 +60,14 @@ fun SplashScreen(onReady: () -> Unit) {
                 enter = fadeIn(tween(600)) + scaleIn(tween(600))
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    // Om symbol
-                    Text(
-                        "ॐ",
-                        fontSize = 72.sp,
-                        color = Gold,
-                        modifier = Modifier.scale(scale)
+                    // Tirumala Panchangam logo
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                        contentDescription = "Tirumala Panchangam",
+                        modifier = Modifier
+                            .size(180.dp)
+                            .scale(scale),
+                        contentScale = ContentScale.Fit
                     )
                     Spacer(Modifier.height(16.dp))
                     Text(

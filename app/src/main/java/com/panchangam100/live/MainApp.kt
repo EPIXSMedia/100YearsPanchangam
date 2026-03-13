@@ -2,6 +2,7 @@ package com.panchangam100.live
 
 import android.app.Application
 import com.panchangam100.live.ads.AdManager
+import com.panchangam100.live.notifications.NotificationHelper
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -13,6 +14,7 @@ class MainApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        NotificationHelper.createChannels(this)
         adManager.initialize()
     }
 }
